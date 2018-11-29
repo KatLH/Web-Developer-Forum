@@ -15,24 +15,22 @@
 
   if(!$result)
   {
-  	echo 'The topic could not be displayed, please try again later.';
+  	?> <p>The topic could not be displayed, please try again later.</p> <?php
   }
   else
   {
   	if(mysqli_num_rows($result) == 0)
   	{
-  		echo 'This topic doesn&prime;t exist.';
+  		?> <p>This topic does not exist.</p> <?php
   	}
   	else
   	{
   		while($row = mysqli_fetch_assoc($result))
   		{
   			//display post data
-  			echo '<table border="1">
-  					<tr>
-  						<th colspan="2">' . $row['topic_subject'] . '</th>
-  					</tr>';
-
+            ?> <div> <?php
+                echo $row['topic_subject'];
+            ?> <div> <?php
   			//fetch the posts from the database
         $id = mysqli_real_escape_string($connection, $_GET['id']);
 
@@ -56,42 +54,33 @@
 
   			if(!$posts_result)
   			{
-  				echo '<tr>
-                  <td>The posts could not be displayed, please try again later.</td>
-                </tr>
-              </table>';
+  	            ?> <p>The posts could not be displayed, please try again later.</p> <?php
   			}
   			else
   			{
 
   				while($posts_row = mysqli_fetch_assoc($posts_result))
   				{
-  					echo '<tr>
-  							    <td>' . $posts_row['username'] . '<br/>' . date('d-m-Y H:i', strtotime($posts_row['post_date'])) . '</td>
-  							    <td>' . htmlentities(stripslashes($posts_row['post_content'])) . '</td>
-  						    </tr>';
+                ?> <div> <?php
+  					    echo $posts_row['username']; ?> <br> <?php
+                        echo date('d-m-Y H:i', strtotime($posts_row['post_date'])); ?> <br> <?php
+                        echo htmlentities(stripslashes($posts_row['post_content'])); ?> <br> <?php
+                ?> <div> <?php
   				}
   			}
 
   			if(!isset($_SESSION['logged_in']))
   			{
-  				echo '<tr>
-                  <td colspan=2>You must be <a href="../login/login.php">signed in</a> to reply. You can also <a href="../register/register.php">sign up</a> for an account.';
+                ?> <span>You must be <a href="../login/login.php">signed in</a> to reply. You can also <a href="../register/register.php">sign up</a> for an account.</span> <?php
   			}
   			else
   			{
-
-  				echo '<tr>
-                  <td colspan="2"><h2>Reply:</h2><br />
-                    <form method="post" action="../topics/reply.php?id=' . $row['topic_id'] . '">
-    						      <textarea name="reply-content"></textarea><br /><br />
-    						      <input type="submit" value="Submit reply" />
-    					      </form>
-                  </td>
-                </tr>';
+  				?> <h2>Reply:</h2><br> <?php
+                echo '<form method="post" action="../topics/reply.php?id=' . $row['topic_id'] . '">'; ?>
+    				<textarea name="reply-content"></textarea><br /><br />
+    				<input type="submit" value="Submit reply" />
+    			</form> <?php
   			}
-
-  			echo '</table>';
   		}
   	}
   }

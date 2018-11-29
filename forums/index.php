@@ -29,55 +29,49 @@ else
 		echo 'No categories defined yet.';
 	}
 	else
-	{
-		echo '<table border="1">
-			  		<tr>
-							<th>Category</th>
-							<th>Last topic</th>
-						</tr>';
+	{ ?>
+		<!--Section headers-->
+		<div>
+			Category
+			Last topic
+		</div>
 
-		while($row = mysqli_fetch_assoc($result))
-		{
-			echo '<tr>';
-				echo '<td>';
-					echo '<h3><a href="../category/category.php?id=' . $row['cat_id'] . '">' . $row['cat_name'] . '</a></h3>' . $row['cat_description'];
-				echo '</td>';
-				echo '<td>';
+	<?php while($row = mysqli_fetch_assoc($result)) {
+			echo '<h3><a href="../category/category.php?id=' . $row['cat_id'] . '">' . $row['cat_name'] . '</a></h3>' . $row['cat_description'];
 
-					$topicsql = "SELECT
-									topic_id,
-									topic_subject,
-									topic_date,
-									topic_cat
-								FROM
-									topics
-								WHERE
-									topic_cat = " . $row['cat_id'] . "
-								ORDER BY
-									topic_date
-								DESC
-									LIMIT 1";
+			$topicsql = "SELECT
+							topic_id,
+							topic_subject,
+							topic_date,
+							topic_cat
+						FROM
+							topics
+						WHERE
+							topic_cat = " . $row['cat_id'] . "
+						ORDER BY
+							topic_date
+						DESC
+							LIMIT 1";
 
-					$topicsresult = mysqli_query($connection, $topicsql);
+			$topicsresult = mysqli_query($connection, $topicsql);
 
-					if(!$topicsresult)
-					{
-						echo 'Last topic could not be displayed.';
-					}
-					else
-					{
-						if(mysqli_num_rows($topicsresult) == 0)
-						{
-							echo 'no topics';
-						}
-						else
-						{
-							while($topicrow = mysqli_fetch_assoc($topicsresult))
-							echo '<a href="../topics/topic.php?id=' . $topicrow['topic_id'] . '">' . $topicrow['topic_subject'] . '</a> at ' . date('d-m-Y', strtotime($topicrow['topic_date']));
-						}
-					}
-				echo '</td>';
-			echo '</tr>';
+			if(!$topicsresult)
+			{
+				echo 'Last topic could not be displayed.';
+			}
+			else
+			{
+				if(mysqli_num_rows($topicsresult) == 0)
+				{
+					echo 'no topics';
+				}
+				else
+				{
+					while($topicrow = mysqli_fetch_assoc($topicsresult))
+
+					echo '<a href="../topics/topic.php?id=' . $topicrow['topic_id'] . '">' . $topicrow['topic_subject'] . '</a> at ' . date('d-m-Y', strtotime($topicrow['topic_date']));
+				}
+			}
 		}
 	}
 }

@@ -2,9 +2,9 @@
 include '../database/db_connect.php';
 include '../include/header.php';
 
-echo '<h2>Sign out</h2>';
+?> <h2>Logout</h2> <?php
 
-if($_SESSION['signed_in'] == true)
+if($_SESSION['logged_in'] == true)
 {
 
 	unset($_SESSION['logged_in']);

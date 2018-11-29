@@ -15,13 +15,13 @@ $result = mysqli_query($connection, $sql);
 
 if(!$result)
 {
-    echo 'The category could not be displayed, please try again later.' . mysqli_error($connection);
+    ?> <p>The category could not be displayed, please try again later.</p> <?php
 }
 else
 {
     if(mysqli_num_rows($result) == 0)
     {
-        echo 'This category does not exist.';
+        ?> <p>This category does not exist</p> <?php
     }
     else
     {
@@ -44,32 +44,29 @@ else
 
         if(!$result)
         {
-            echo 'The topics could not be displayed, please try again later.';
+            ?> <p>The topics could not be displayed, please try again later.</p> <?php
         }
         else
         {
             if(mysqli_num_rows($result) == 0)
             {
-                echo 'There are no topics in this category yet.';
+                ?> <p>There are no topics in this category yet.</p> <?php
             }
             else
-            {
-                echo '<table border="1">
-                      <tr>
-                        <th>Topic</th>
-                        <th>Created at</th>
-                      </tr>';
+            { ?>
+                <!--Topic header information-->
+                <div>
+                    Topic
+                    Created at
+                </div>
+                <?php while($row = mysqli_fetch_assoc($result))
+                { ?>
+                    <div>
+                        <?php echo '<h3><a href="../topics/topic.php?id=' . $row['topic_id'] . '">' . $row['topic_subject'] . '</a><h3>';
 
-                while($row = mysqli_fetch_assoc($result))
-                {
-                    echo '<tr>';
-                        echo '<td>';
-                            echo '<h3><a href="../topics/topic.php?id=' . $row['topic_id'] . '">' . $row['topic_subject'] . '</a><h3>';
-                        echo '</td>';
-                        echo '<td>';
-                            echo date('d-m-Y', strtotime($row['topic_date']));
-                        echo '</td>';
-                    echo '</tr>';
+                        echo date('d-m-Y', strtotime($row['topic_date'])); ?>
+
+                    </div> <?php
                 }
             }
         }

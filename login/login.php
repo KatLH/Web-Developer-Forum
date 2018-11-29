@@ -9,18 +9,20 @@ include '../include/header.php';
 echo '<h3>Sign in</h3>';
 
 if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)
-{
-    echo 'You are already signed in, would you like to <a href="../login/logout.php">sign out</a>?';
+{ ?>
+    <span>You are already signed in, would you like to <a href="../login/logout.php">sign out</a>?</span>
+<?php
 }
 else
 {
     if($_SERVER['REQUEST_METHOD'] != 'POST')
-    {
-        echo '<form method="post" action="">
+    { ?>
+        <form method="post" action="">
             Username: <input type="text" name="username" />
             Password: <input type="password" name="password">
             <input type="submit" value="Sign in" />
-         </form>';
+        </form>
+    <?php
     }
     else
     {
@@ -37,14 +39,15 @@ else
         }
 
         if(!empty($errors))
-        {
-            echo 'Incomplete fields';
-            echo '<ul>';
-            foreach($errors as $key => $value)
-            {
-                echo '<li>' . $value . '</li>';
-            }
-            echo '</ul>';
+        { ?>
+            <div>
+                Incomplete fields
+                <ul>
+            <?php foreach($errors as $key => $value) { ?>
+                    <li> <?php ' . $value . ' ?> </li>
+            <?php } ?>
+                </ul>
+        <?php 
         }
         else
         {

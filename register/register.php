@@ -2,18 +2,17 @@
 include '../database/db_connect.php';
 include '../include/header.php';
 
-echo '<h3>Sign up</h3>';
+?> <h3>Sign up</h3> <?php
 
-if($_SERVER['REQUEST_METHOD'] != 'POST')
-{
-    echo '<form method="post" action="">
+if($_SERVER['REQUEST_METHOD'] != 'POST') { ?>
+    <form method="post" action="">
         Username: <input type="text" name="username" />
         Password: <input type="password" name="password">
         Password again: <input type="password" name="user_pass_check">
         E-mail: <input type="email" name="email">
         <input type="submit" value="Register" />
-     </form>';
-}
+     </form>
+<?php }
 else
 {
     $errors = array();
@@ -48,15 +47,16 @@ else
     }
 
     if(!empty($errors))
-    {
-        echo 'Uh-oh.. a couple of fields are not filled in correctly..';
-        echo '<ul>';
-        foreach($errors as $key => $value)
-        {
-            echo '<li>' . $value . '</li>';
-        }
-        echo '</ul>';
-    }
+    { ?>
+        <p>Uh-oh.. a couple of fields are not filled in correctly..</p>
+        <ul> <?php
+        foreach($errors as $key => $value) { ?>
+            <li>
+                <?php . $value . ?>
+            </li>
+        <?php } ?>
+        </ul>
+    <?php }
     else
     {
         $user = $_POST['username'];
@@ -69,13 +69,12 @@ else
         $result = mysqli_query($connection, $sql);
         if(!$result)
         {
-
-            echo 'Something went wrong while registering. Please try again later.';
+            ?> <p>Something went wrong while registering. Please try again later.</p> <?php
             //echo mysqli_error($connection);
         }
         else
         {
-            echo 'Successfully registered. You can now <a href="../login/login.php">sign in</a> and start posting! :-)';
+            ?> <span>Successfully registered. You can now <a href="../login/login.php">sign in</a></span> <?php
         }
     }
 }

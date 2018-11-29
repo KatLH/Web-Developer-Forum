@@ -4,13 +4,13 @@
 
 if($_SERVER['REQUEST_METHOD'] != 'POST')
 {
-    echo 'This file cannot be called directly.';
+    ?> <p>This file cannot be called directly.</p> <?php
 }
 else
 {
-    if(!$_SESSION['signed_in'])
+    if(!$_SESSION['logged_in'])
     {
-        echo 'You must be signed in to post a reply.';
+        ?> <p>You must be signed in to post a reply.</p> <?php
     }
     else
     {
@@ -28,7 +28,7 @@ else
 
         if(!$result)
         {
-            echo 'Your reply has not been saved, please try again later.';
+            ?> <p>Your reply has not been saved, please try again later.</p> <?php
         }
         else
         {
